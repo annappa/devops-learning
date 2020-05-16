@@ -1,0 +1,23 @@
+Terraform
+
+* You write Terraform configuration code in *.tf files using the HCL language. https://github.com/hashicorp/hcl
+* HCL language official doc - the official docs - https://www.terraform.io/docs/configuration/syntax.html
+* Inside Terraform files, you are mostly dealing with resources and data sources.
+* Resources represent components of your infrastructure, e.g., an AWS EC2 instance, an RDS instance, a Route53 DNS record, or a rule in a security group. They allow you to provision and change them inside the cloud architecture.
+* On the other hand, there are data sources which allow you to read data about given components without changing them. You want to get the AWS ID (ARN) of an ACM-issued certificate? You use a data source. The difference is that data sources are prefixed with data_ when referencing them in the configuration files.
+* terraform.tfvars – define variable values. .tfvars files are similar to .env files in that they hold the key=val pairs for defined variables. For example, this specifies the AWS profile, AWS key_name and AWS key_path that I use. It can be ignored in Git.
+* The state (either local or remote) that represents the resources that Terraform manages (more on that later)
+* .tfvars files are similar to .env files in that they hold the key=val pairs for defined variables. For example, this specifies the AWS profile, AWS key_name and AWS key_path that I use. It can be ignored in Git.
+* terraform.tf – this is the main configuration of each env; it holds the terraform {} block which configures the back-end. I also configure providers here.
+
+################# Commands ################
+
+* terraform init —> pulls the specified providers. We can run this command multiple times
+* Terraform plan  ->
+* Terraform apply ->
+* Terraform destroy
+* Terraform validate
+* Terraform fit
+* Terraform refresh
+* Terraform state show -state=<state file path> <resourcetype.resourcename>
+*  
