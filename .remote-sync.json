@@ -1,0 +1,19 @@
+{
+  "logger": {
+    "title": "Remote Sync"
+  },
+  "uploadOnSave": false,
+  "useAtomicWrites": false,
+  "deleteLocal": false,
+  "port": "22",
+  "target": "/home/osboxes/udemy-ansible-demos",
+  "ignore": [
+    ".remote-sync.json",
+    ".git/**"
+  ],
+  "watch": [],
+  "transport": "scp",
+  "hostname": "192.168.1.21",
+  "username": "osboxes",
+  "password": "osboxes.org"
+}

@@ -111,3 +111,6 @@ $ docker run -e APP_COLOR=red simple-webapp-color
 $ docker inspect <container_name>/<container_id>
   Using this, we can see the already set environment variables of the docker container
 ```
+
+## How to copy Docker images from one host to another without using a repository
+[How to copy Docker images from one host to another without using a repository](https://stackoverflow.com/questions/23935141/how-to-copy-docker-images-from-one-host-to-another-without-using-a-repository)
