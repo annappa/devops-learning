@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/apache kafka/Essential_Training_By_Kumaran_Ponnambalam/KafkaGettingStarted/KafkaGettingStarted.iml" filepath="$PROJECT_DIR$/apache kafka/Essential_Training_By_Kumaran_Ponnambalam/KafkaGettingStarted/KafkaGettingStarted.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/devops-learning.iml" filepath="$PROJECT_DIR$/.idea/devops-learning.iml" />
     </modules>
   </component>
