@@ -4,6 +4,10 @@
 * [Public Docker Images Repo](https://hub.docker.com/)
 * [Online Labs URL for Executing commands](https://kodekloud.com/p/docker-labs)
 
+[docker-for-java-developers](https://www.linkedin.com/learning/docker-for-java-developers/run-your-first-docker-container?u=42751868)
+
+[Docker Tutorial for Beginners [FULL COURSE in 3 Hours]](https://www.youtube.com/watch?v=3c-iBn73dDE)
+
 # Important Commands
 ## RUN - Start a container
 #### It will create the container of the image which is present locally. If its not not there locally, it will go and pull from the public docker repo
