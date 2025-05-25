@@ -7,14 +7,14 @@
  [LinkedIn Learning Course - Learning Kubernetes by Karthik Gaekwad](https://www.linkedin.com/learning/learning-kubernetes/welcome?u=42751868)
  
 ## Doc
-####What Is Kubernetes?
+#### What Is Kubernetes?
 Kubernetes is an open-source system for automating deployment, scaling, and management of containerized applications.
 
 Kubernetes is also referred to as **k8s (pronounced Kate's)**, as there are 8 characters between k and s.
 
 Kubernetes was started by Google and, with its v1.0 release in July 2015, Google donated it to the Cloud Native Computing Foundation (CNCF).
 
-####Kubernetes Features
+#### Kubernetes Features
 Kubernetes offers a very rich set of features for container orchestration. Some of its fully supported features are:
 
 * **Automatic bin packing**
@@ -749,7 +749,7 @@ $ kubectl create configmap permission-config --from-file=<path/to/>permission-re
   configmap/permission-config created
 ```
 
-#####Use ConfigMaps Inside Pods
+##### Use ConfigMaps Inside Pods
 **As Environment Variables**
 
 Inside a Container, we can retrieve the key-value data of an entire ConfigMap or the values of specific ConfigMap keys as environment variables.
@@ -779,6 +779,45 @@ $ kubectl get secret my-password
 $ kubectl describe secret my-password
 ```
 
+##### Where Are Kubernetes Secrets Stored?
+By default, secrets are stored in etcd, the key-value store that backs Kubernetes.
+
+- Stored in base64-encoded form
+
+- If not encrypted, they are not secure — base64 ≠ encryption
+
+- You can enable encryption at rest in your cluster configuration (recommended)
+
+- Access is controlled via RBAC (Role-Based Access Control)
+
+Example:
+kubectl get secret mysecret -o yaml
+
+Output:
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: eyJhdXRocyI6IHsiaW...
+
+```
+This base64 string decodes to:
+```json
+{
+  "auths": {
+    "https://index.docker.io/v1/": {
+      "username": "myuser",
+      "password": "mypassword",
+      "auth": "encoded_auth"
+    }
+  }
+}
+
+```
+
 ##### Use Secrets Inside Pods
 Secrets are consumed by Containers in Pods as mounted data volumes, or as environment variables, and are referenced in their entirety or specific key-values.
 
@@ -799,6 +838,66 @@ spec:
           key: password
 ....
 ```
+
+##### Mount a secret as a file
+kubectl create secret generic myapp-secrets \
+--from-literal=db-user=admin \
+--from-literal=db-password=secret123
+
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: file-secret-pod
+spec:
+  containers:
+    - name: myapp
+      image: myapp-image
+      volumeMounts:
+        - name: secret-volume
+          mountPath: "/etc/secrets"
+          readOnly: true
+  volumes:
+    - name: secret-volume
+      secret:
+        secretName: myapp-secrets
+
+```
+
+Inside the container:
+```shell
+cat /etc/secrets/db-user       # prints: admin
+cat /etc/secrets/db-password   # prints: secret123
+
+```
+
+##### Why is it called docker-registry in the command?
+Kubernetes supports different types of secrets:
+
+Each type tells Kubernetes how to interpret the data in the secret.
+
+| Secret Type                      | Purpose                                        |
+| -------------------------------- | ---------------------------------------------- |
+| `Opaque`                         | Default type (you define arbitrary key-values) |
+| `kubernetes.io/dockerconfigjson` | Used specifically for Docker/OCI registry auth |
+| `kubernetes.io/tls`              | For storing TLS certs and keys                 |
+| `kubernetes.io/basic-auth`       | For HTTP basic auth (e.g., Git repos)          |
+
+So, when you run:
+
+kubectl create secret docker-registry mysecret ...
+
+…it’s a shortcut that creates a secret of type:
+
+type: kubernetes.io/dockerconfigjson
+
+And the data inside is formatted as a Docker config.json authentication file.
+
+Why special type?
+Because Kubelet (the node agent) uses this specific format when it pulls private images. It knows how to interpret that type and use it when contacting registries.
+
+
 
 #### Kubernetes Volume Management
 Kubernetes uses Volumes, storage abstractions that allow various storage technologies to be used by Kubernetes and offered to containers in Pods as storage media. A Volume is essentially a mount point on the container's file system backed by a storage medium. The storage medium, content and access mode are determined by the Volume Type.
