@@ -1,1 +1,54 @@
-.DS_Store/
+# Maven target folders
+**/target/
+!**/src/main/**/target/   # just in case IntelliJ indexes inside src
+
+# IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Eclipse (if you or teammates use it)
+.classpath
+.project
+.settings/
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# VS Code
+.vscode/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs and temp
+*.log
+*.tmp
+*.swp
+
+# Compiled class files
+**/*.class
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# Test coverage and reports
+jacoco.exec
+**/jacoco-report/
+
+# Other tools
+dependency-reduced-pom.xml
+release.properties
+
+# Ignore local run configs (optional)
+*.run.xml
